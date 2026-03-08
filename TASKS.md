@@ -14,10 +14,10 @@
 
 ## Phase 3: Testing & Hardening
 
-- [ ] Unit tests for validation layer
-- [ ] Unit tests for transport (retry, timeout, TLS enforcement)
-- [ ] Integration tests for Slack adapter with recorded API fixtures
-- [ ] E2E CLI tests
+- [x] Unit tests for validation layer
+- [x] Unit tests for transport (retry, timeout, TLS enforcement)
+- [x] Integration tests for Slack adapter with recorded API fixtures
+- [x] E2E CLI tests
 
 ## Phase 4: Build & Distribution
 
