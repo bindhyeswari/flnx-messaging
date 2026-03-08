@@ -1,10 +1,14 @@
+## Workflow Rules
+
+- **Check permissions before asking.** Before prompting the user for tool access, read `.claude/settings.local.json` to verify whether the permission is already granted. Never ask for access that is already configured. This is a remote session — the user cannot approve interactive prompts mid-run.
+
 # flnx-messaging
 
 Stateless CLI tool for sending/reading/reacting to messages across platforms (Slack first, Discord/Teams/Telegram planned).
 
 ## Current Status
 
-See `TASKS.md` for the full task list. Next up: scaffold the `src/` directory and build the transport layer (`secureRequest`), which is the critical dependency blocking everything else.
+See `TASKS.md` for the full task list. Phase 1 (scaffold + core infrastructure) and Phase 2 (command handlers + audit) are complete. Next up: Phase 3 (testing & hardening).
 
 ## Tech Stack
 
@@ -16,18 +20,19 @@ See `TASKS.md` for the full task list. Next up: scaffold the `src/` directory an
 ## Project Structure
 
 ```
-index.ts          — Core types: Message, Channel, Result<T,E>, FlnxError, exit codes
-adapter.ts        — PlatformAdapter interface + adapter factory (createAdapter)
-slack.ts          — SlackAdapter implementation (all Slack Web API calls)
-cli.ts            — CLI entry point: arg parsing, command routing, credential management
+src/
+  cli.ts              — CLI entry point: arg parsing, command routing, credential management
+  types/index.ts      — Core types: Message, Channel, Result<T,E>, FlnxError, exit codes
+  adapters/adapter.ts — PlatformAdapter interface + adapter factory (createAdapter)
+  adapters/slack.ts   — SlackAdapter implementation (all Slack Web API calls)
+  transport/index.ts  — secureRequest: TLS-only, retry, timeout, host allowlist, response cap
+  validation/index.ts — Input validators for all fields + log sanitization
+  credentials/index.ts— Token resolution (flag→env→file), 0600 credential storage
+  commands/index.ts   — Command handlers (send, read, react, upload, channels, status)
+  audit/index.ts      — Structured JSON audit logging with credential redaction
 ```
 
-**Planned (referenced in cli.ts imports but not yet created):**
-- `src/validation/` — Input validation layer
-- `src/credentials/` — Token resolution and storage
-- `src/commands/` — Command handlers (send, read, react, upload, channels, status)
-- `src/transport/` — HTTP transport (TLS-only, retry, timeout)
-- `src/audit/` — Structured JSON audit logging
+**Legacy root files** (`index.ts`, `adapter.ts`, `slack.ts`, `cli.ts`) are the original drafts — canonical code is now under `src/`.
 
 ## Architecture
 
@@ -59,8 +64,8 @@ flnx credential --set --platform slack --token xoxb-...
 ## Build & Run
 
 ```bash
-bun run cli.ts <command> [options]
-bun build cli.ts --compile --outfile flnx
+bun run src/cli.ts <command> [options]
+bun build src/cli.ts --compile --outfile flnx
 ```
 
 ## Security Notes

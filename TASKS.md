@@ -2,15 +2,15 @@
 
 ## Phase 1: Scaffold & Core Infrastructure
 
-- [ ] Scaffold `src/` directory structure and move existing files
-- [ ] Build transport layer (`src/transport/`) — `secureRequest` with TLS-only, retry, timeout
-- [ ] Build validation layer (`src/validation/`) — input sanitization for all fields
-- [ ] Build credential manager (`src/credentials/`) — token resolution, 0600 file storage
+- [x] Scaffold `src/` directory structure and move existing files
+- [x] Build transport layer (`src/transport/`) — `secureRequest` with TLS-only, retry, timeout
+- [x] Build validation layer (`src/validation/`) — input sanitization for all fields
+- [x] Build credential manager (`src/credentials/`) — token resolution, 0600 file storage
 
 ## Phase 2: Command Handlers
 
-- [ ] Build command handlers (`src/commands/`) — `handleSend`, `handleRead`, `handleReact`, `handleUpload`, `handleChannels`, `handleStatus`
-- [ ] Build audit logger (`src/audit/`) — structured JSON logging with redacted credentials
+- [x] Build command handlers (`src/commands/`) — `handleSend`, `handleRead`, `handleReact`, `handleUpload`, `handleChannels`, `handleStatus`
+- [x] Build audit logger (`src/audit/`) — structured JSON logging with redacted credentials
 
 ## Phase 3: Testing & Hardening
 
